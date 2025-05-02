@@ -1211,12 +1211,12 @@ void Plant::UpdateSweetPotato()
     {
         if (aBodyReanim->mLoopCount > 0)
         {
-            
-            PlayBodyReanim("anim_armed", ReanimLoopType::REANIM_LOOP, 0, 15.0f);
+            float aRate = RandRangeFloat(12.0f, 15.0f);
+            PlayBodyReanim("anim_armed", ReanimLoopType::REANIM_LOOP, 0, aRate);
 
             Reanimation* aLightReanim = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, GetPlantDefinition(mSeedType).mReanimationType);
             aLightReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
-            aLightReanim->mAnimRate = 2.0f;
+            aLightReanim->mAnimRate = aRate - 2.0f;
             aLightReanim->SetFramesForLayer("anim_glow");
             aLightReanim->mFrameCount = 10;
             aLightReanim->ShowOnlyTrack("anim_glow");
