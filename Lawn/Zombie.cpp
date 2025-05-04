@@ -177,7 +177,51 @@ void Zombie::ZombieInitialize(int theRow, ZombieType theType, bool theVariant, Z
     {
     case ZombieType::ZOMBIE_ENDERMAN:
         LoadPlainZombieReanim();
-        
+        /*int Teleport = RandRangeInt(0, 3);
+        bool aCanGoUp = true;
+        bool aCanGoDown = true;
+        bool aIsPool = mBoard->mPlantRow[mRow] == PlantRowType::PLANTROW_POOL;
+        if (!mBoard->RowCanHaveZombies(mRow - 1))
+        {
+            aCanGoUp = false;
+        }
+        else if (mBoard->mPlantRow[mRow - 1] == PlantRowType::PLANTROW_POOL && !aIsPool)
+        {
+            aCanGoUp = false;
+        }
+        else if (mBoard->mPlantRow[mRow - 1] != PlantRowType::PLANTROW_POOL && aIsPool)
+        {
+            aCanGoUp = false;
+        }
+        if (!mBoard->RowCanHaveZombies(mRow + 1))
+        {
+            aCanGoDown = false;
+        }
+        else if (mBoard->mPlantRow[mRow + 1] == PlantRowType::PLANTROW_POOL && !aIsPool)
+        {
+            aCanGoDown = false;
+        }
+        else if (mBoard->mPlantRow[mRow + 1] != PlantRowType::PLANTROW_POOL && aIsPool)
+        {
+            aCanGoDown = false;
+        }
+
+        if (aCanGoDown && !aCanGoUp)
+        {
+            SetRow(mRow + 1);
+        }
+        else if (!aCanGoDown && aCanGoUp)
+        {
+            SetRow(mRow - 1);
+        }
+        else if (aCanGoDown && aCanGoUp)
+        {
+            SetRow((Rand(2) == 0) ? (mRow + 1) : (mRow - 1));
+        }
+        else
+        {
+            TOD_ASSERT();
+        }*/
         break;
     case ZombieType::ZOMBIE_NORMAL:  
         LoadPlainZombieReanim();
