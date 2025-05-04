@@ -22,7 +22,7 @@
 #include "../Sexy.TodLib/TodStringFile.h"
 
 PlantDefinition gPlantDefs[SeedType::NUM_SEED_TYPES] = {  
-    { SeedType::SEED_SWEET_POTATO,      nullptr, ReanimationType::REANIM_POTATOMINE,    33, 35,     3500,   PlantSubClass::SUBCLASS_NORMAL,     0,      _S("SWEET_POTATO") },
+    { SeedType::SEED_SWEET_POTATO,      nullptr, ReanimationType::REANIM_SWEET_POTATO,  33, 35,     3500,   PlantSubClass::SUBCLASS_NORMAL,     0,      _S("SWEET_POTATO") },
     { SeedType::SEED_PEASHOOTER,        nullptr, ReanimationType::REANIM_PEASHOOTER,    0,  100,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    _S("PEASHOOTER") },
     { SeedType::SEED_SUNFLOWER,         nullptr, ReanimationType::REANIM_SUNFLOWER,     1,  50,     750,    PlantSubClass::SUBCLASS_NORMAL,     2500,   _S("SUNFLOWER") },
     { SeedType::SEED_CHERRYBOMB,        nullptr, ReanimationType::REANIM_CHERRYBOMB,    3,  150,    5000,   PlantSubClass::SUBCLASS_NORMAL,     0,      _S("CHERRY_BOMB") },

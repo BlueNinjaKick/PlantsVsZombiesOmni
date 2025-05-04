@@ -66,6 +66,15 @@ ZombieAllowedLevels gZombieAllowedLevels[NUM_ZOMBIE_TYPES] = {
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 		}
 	},
+	{ ZOMBIE_ENDERMAN,
+		{
+			0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+			1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+			1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		}
+	},
 	{ ZOMBIE_POLEVAULTER,
 		{
 			0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
