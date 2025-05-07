@@ -113,6 +113,7 @@ public:
     int                             mUseLadderCol;                              
     int                             mTargetCol;                                 
     float                           mAltitude;                                  
+    int                             mTeleportCounter;
     bool                            mHitUmbrella;                               
     Rect                            mZombieRect;                                
     Rect                            mZombieAttackRect;                          
@@ -185,6 +186,7 @@ public:
     float                           GetPosYBasedOnRow(int theRow);
     void                            ApplyChill(bool theIsIceTrap);
     void                            UpdateZombieBungee();
+    void                            UpdateZombieEnderman();
     void                            BungeeLanding();
     bool                            EffectedByDamage(unsigned int theDamageRangeFlags);
     void                            PickRandomSpeed();

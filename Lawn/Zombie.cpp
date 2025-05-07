@@ -154,6 +154,7 @@ void Zombie::ZombieInitialize(int theRow, ZombieType theType, bool theVariant, Z
     mIsFireBall = false;
     mMoweredReanimID = ReanimationID::REANIMATIONID_NULL;
     mLastPortalX = -1;
+    mTeleportCounter = 1;
     for (int i = 0; i < MAX_ZOMBIE_FOLLOWERS; i++)
     {
         mFollowerZombieID[i] = ZombieID::ZOMBIEID_NULL;
@@ -177,51 +178,7 @@ void Zombie::ZombieInitialize(int theRow, ZombieType theType, bool theVariant, Z
     {
     case ZombieType::ZOMBIE_ENDERMAN:
         LoadPlainZombieReanim();
-        /*int Teleport = RandRangeInt(0, 3);
-        bool aCanGoUp = true;
-        bool aCanGoDown = true;
-        bool aIsPool = mBoard->mPlantRow[mRow] == PlantRowType::PLANTROW_POOL;
-        if (!mBoard->RowCanHaveZombies(mRow - 1))
-        {
-            aCanGoUp = false;
-        }
-        else if (mBoard->mPlantRow[mRow - 1] == PlantRowType::PLANTROW_POOL && !aIsPool)
-        {
-            aCanGoUp = false;
-        }
-        else if (mBoard->mPlantRow[mRow - 1] != PlantRowType::PLANTROW_POOL && aIsPool)
-        {
-            aCanGoUp = false;
-        }
-        if (!mBoard->RowCanHaveZombies(mRow + 1))
-        {
-            aCanGoDown = false;
-        }
-        else if (mBoard->mPlantRow[mRow + 1] == PlantRowType::PLANTROW_POOL && !aIsPool)
-        {
-            aCanGoDown = false;
-        }
-        else if (mBoard->mPlantRow[mRow + 1] != PlantRowType::PLANTROW_POOL && aIsPool)
-        {
-            aCanGoDown = false;
-        }
-
-        if (aCanGoDown && !aCanGoUp)
-        {
-            SetRow(mRow + 1);
-        }
-        else if (!aCanGoDown && aCanGoUp)
-        {
-            SetRow(mRow - 1);
-        }
-        else if (aCanGoDown && aCanGoUp)
-        {
-            SetRow((Rand(2) == 0) ? (mRow + 1) : (mRow - 1));
-        }
-        else
-        {
-            TOD_ASSERT();
-        }*/
+        mTeleportCounter = RandRangeInt(0, 3000);
         break;
     case ZombieType::ZOMBIE_NORMAL:  
         LoadPlainZombieReanim();
@@ -1298,6 +1255,76 @@ void Zombie::BungeeLanding()
         mPhaseCounter = 300;
         PlayZombieReanim("anim_idle", ReanimLoopType::REANIM_LOOP, 5, 24.0f);
         mApp->ReanimationGet(mBodyReanimID)->mAnimTime = 0.5f;
+    }
+}
+
+void Zombie::UpdateZombieEnderman() 
+{
+    if (IsDeadOrDying() || IsImmobilizied())
+        return;
+
+    mTeleportCounter--;
+    
+    if (mTeleportCounter <= 0)
+    {
+        int mTeleport = RandRangeInt(0, 4);
+        bool aCanGoUp = true;
+        bool aCanGoDown = true;
+        bool aIsPool = mBoard->mPlantRow[mRow] == PlantRowType::PLANTROW_POOL;
+        mTeleportCounter = RandRangeInt(0,3000);
+        if (mTeleport == 0)
+        {
+            return;
+        }
+        else if (mTeleport == 1)
+        {
+
+            if (!mBoard->RowCanHaveZombies(mRow - 1))
+            {
+                aCanGoUp = false;
+            }
+            else if (mBoard->mPlantRow[mRow - 1] == PlantRowType::PLANTROW_POOL && !aIsPool)
+            {
+                aCanGoUp = false;
+            }
+            else if (mBoard->mPlantRow[mRow - 1] != PlantRowType::PLANTROW_POOL && aIsPool)
+            {
+                aCanGoUp = false;
+            }
+
+            if (aCanGoUp) {
+                mPosY -= 80;
+            }
+        }
+        else if (mTeleport == 2)
+        {
+
+            if (!mBoard->RowCanHaveZombies(mRow + 1))
+            {
+                aCanGoDown = false;
+            }
+            else if (mBoard->mPlantRow[mRow + 1] == PlantRowType::PLANTROW_POOL && !aIsPool)
+            {
+                aCanGoDown = false;
+            }
+            else if (mBoard->mPlantRow[mRow + 1] != PlantRowType::PLANTROW_POOL && aIsPool)
+            {
+                aCanGoDown = false;
+            }
+
+            if (aCanGoDown) {
+                mPosY += 80;
+            }
+
+        }
+        else if (mTeleport == 3)
+        {
+            mPosX -= 80;
+        }
+        else if (mTeleport == 4)
+        {
+            mPosX += 80;
+        }
     }
 }
 
@@ -4265,7 +4292,11 @@ void Zombie::UpdateActions()
     {
         UpdateZombieChimney();
     }
-
+    
+    if (mZombieType == ZombieType::ZOMBIE_ENDERMAN)
+    {
+        UpdateZombieEnderman();
+    }
     if (mZombieType == ZombieType::ZOMBIE_POLEVAULTER)
     {
         UpdateZombiePolevaulter();
