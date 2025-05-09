@@ -2731,10 +2731,6 @@ void Plant::UpdateReanimColor()
     {
         aColorOverride = Color(255, 64, 64);
     }
-    else if (mSeedType == SeedType::SEED_SWEET_POTATO)
-    {
-        aColorOverride = Color(255, 64, 255);
-    }
     else
     {
         aColorOverride = Color(255, 255, 255);
