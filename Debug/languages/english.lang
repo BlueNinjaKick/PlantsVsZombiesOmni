@@ -106,6 +106,12 @@ Peashooter
 [PEASHOOTER_TOOLTIP]
 Shoots peas at the enemy
 
+[SWEET_POTATO]
+Sweet Potato Mine
+
+[SWEET_POTATO_TOOLTIP]
+Explodes a short time after contact, but takes a lot of time to arm herself
+
 [SUNFLOWER]
 Sunflower
 
