@@ -1390,6 +1390,7 @@ void Board::InitLevel()
 	}
 	else if (aGameMode == GameMode::GAMEMODE_CHALLENGE_ICE)
 	{
+		//Change these to test new plants
 		TOD_ASSERT(mSeedBank->mNumPackets == 6);
 		mSeedBank->mSeedPackets[0].SetPacketType(SeedType::SEED_PEASHOOTER);
 		mSeedBank->mSeedPackets[1].SetPacketType(SeedType::SEED_CHERRYBOMB);
@@ -7717,6 +7718,7 @@ static void TodCrash()
 	TOD_ASSERT(false, "Crash%s", "!!!!");
 }
 
+// this is where it knows if you pressed a key on the keyboard
 void Board::KeyChar(SexyChar theChar)
 {
 	bool aCanUseKeybinds = mApp->mBankKeybinds && (!mPaused || mApp->mGameScene == GameScenes::SCENE_PLAYING || mApp->mCrazyDaveState != CrazyDaveState::CRAZY_DAVE_OFF);
@@ -8332,6 +8334,11 @@ void Board::KeyChar(SexyChar theChar)
 	if (theChar == _S('o'))
 	{
 		AddZombie(ZombieType::ZOMBIE_FOOTBALL, Zombie::ZOMBIE_WAVE_DEBUG);
+		return;
+	}
+	if (theChar == _S('e'))
+	{
+		AddZombie(ZombieType::ZOMBIE_ENDERMAN, Zombie::ZOMBIE_WAVE_DEBUG);
 		return;
 	}
 	if (theChar == _S('s'))

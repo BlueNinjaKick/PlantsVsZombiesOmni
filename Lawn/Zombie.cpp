@@ -1294,6 +1294,7 @@ void Zombie::UpdateZombieEnderman()
 
             if (aCanGoUp) {
                 mPosY -= 80;
+                mApp->PlaySample(SOUND_POTATO_MINE);
             }
         }
         else if (mTeleport == 2)
@@ -1314,16 +1315,19 @@ void Zombie::UpdateZombieEnderman()
 
             if (aCanGoDown) {
                 mPosY += 80;
+                mApp->PlaySample(SOUND_POTATO_MINE);
             }
 
         }
         else if (mTeleport == 3)
         {
             mPosX -= 80;
+            mApp->PlaySample(SOUND_POTATO_MINE);
         }
         else if (mTeleport == 4)
         {
             mPosX += 80;
+            mApp->PlaySample(SOUND_POTATO_MINE);
         }
     }
 }
