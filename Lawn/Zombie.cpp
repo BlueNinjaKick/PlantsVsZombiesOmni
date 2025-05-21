@@ -1293,8 +1293,10 @@ void Zombie::UpdateZombieEnderman()
             }
 
             if (aCanGoUp) {
+                mApp->AddTodParticle(mPosX, mPosY, mRenderOrder + 1, ParticleEffect::PARTICLE_ENDER_TELEPORT);
                 mPosY -= 80;
-                mApp->PlaySample(SOUND_POTATO_MINE);
+                SetRow(mRow - 1);
+                mApp->PlaySample(SOUND_ENDERMAN_TELEPORT);
             }
         }
         else if (mTeleport == 2)
@@ -1314,20 +1316,25 @@ void Zombie::UpdateZombieEnderman()
             }
 
             if (aCanGoDown) {
+                mApp->AddTodParticle(mPosX, mPosY, mRenderOrder + 1, ParticleEffect::PARTICLE_ENDER_TELEPORT);
                 mPosY += 80;
-                mApp->PlaySample(SOUND_POTATO_MINE);
+                SetRow(mRow + 1);
+                mApp->PlaySample(SOUND_ENDERMAN_TELEPORT);
             }
 
         }
-        else if (mTeleport == 3)
+        else if (mTeleport == 3 && mPosX < 690)
         {
-            mPosX -= 80;
-            mApp->PlaySample(SOUND_POTATO_MINE);
+            mApp->AddTodParticle(mPosX, mPosY, mRenderOrder + 1, ParticleEffect::PARTICLE_ENDER_TELEPORT);
+            mPosX += 80;
+            mApp->PlaySample(SOUND_ENDERMAN_TELEPORT);
+
         }
         else if (mTeleport == 4)
         {
-            mPosX += 80;
-            mApp->PlaySample(SOUND_POTATO_MINE);
+            mApp->AddTodParticle(mPosX, mPosY, mRenderOrder + 1, ParticleEffect::PARTICLE_ENDER_TELEPORT);
+            mPosX -= 80;
+            mApp->PlaySample(SOUND_ENDERMAN_TELEPORT);
         }
     }
 }

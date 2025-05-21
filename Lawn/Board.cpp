@@ -7782,8 +7782,25 @@ void Board::KeyChar(SexyChar theChar)
 
 	if (theChar == _S('e'))
 	{
-		for (int i = 0; i < NUM_ACHIEVEMENTS; i++)
-			mApp->GetAchievement((AchievementType)i);
+		mApp->mEasyPlantingCheat = true;
+		for (int y = 0; y < MAX_GRID_SIZE_Y; ++y)
+		{
+			for (int x = 0; x < MAX_GRID_SIZE_X; ++x)
+			{
+				if (StageHasRoof() && CanPlantAt(x, y, SeedType::SEED_FLOWERPOT) == PlantingReason::PLANTING_OK)
+				{
+					AddPlant(x, y, SeedType::SEED_FLOWERPOT, SeedType::SEED_NONE);
+				}
+				if (CanPlantAt(x, y, SeedType::SEED_LILYPAD) == PlantingReason::PLANTING_OK)
+				{
+					AddPlant(x, y, SeedType::SEED_LILYPAD, SeedType::SEED_NONE);
+				}
+				if (CanPlantAt(x, y, SeedType::SEED_TALLNUT) == PlantingReason::PLANTING_OK)
+				{
+					AddPlant(x, y, SeedType::SEED_TALLNUT, SeedType::SEED_NONE);
+				}
+			}
+		}
 	}
 
 	if (mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_ZEN_GARDEN)
@@ -8336,7 +8353,7 @@ void Board::KeyChar(SexyChar theChar)
 		AddZombie(ZombieType::ZOMBIE_FOOTBALL, Zombie::ZOMBIE_WAVE_DEBUG);
 		return;
 	}
-	if (theChar == _S('e'))
+	if (theChar == _S('E'))
 	{
 		AddZombie(ZombieType::ZOMBIE_ENDERMAN, Zombie::ZOMBIE_WAVE_DEBUG);
 		return;
