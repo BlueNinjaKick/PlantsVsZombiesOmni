@@ -66,15 +66,6 @@ ZombieAllowedLevels gZombieAllowedLevels[NUM_ZOMBIE_TYPES] = {
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 		}
 	},
-	{ ZOMBIE_ENDERMAN,
-		{
-			0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-		}
-	},
 	{ ZOMBIE_POLEVAULTER,
 		{
 			0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
@@ -265,6 +256,15 @@ ZombieAllowedLevels gZombieAllowedLevels[NUM_ZOMBIE_TYPES] = {
 	{ ZOMBIE_GATLING_HEAD, {} },
 	{ ZOMBIE_SQUASH_HEAD, {} },
 	{ ZOMBIE_TALLNUT_HEAD, {} },
+		{ ZOMBIE_ENDERMAN,
+		{
+			0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+			1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+			1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		}
+	},
 };
 
 SeedType gArtChallengeWallnut[MAX_GRID_SIZE_Y][MAX_GRID_SIZE_X] = {  

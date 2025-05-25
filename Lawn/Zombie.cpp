@@ -21,7 +21,6 @@ ZombieDefinition gZombieDefs[NUM_ZOMBIE_TYPES] = {
     { ZOMBIE_NORMAL,            REANIM_ZOMBIE,              1,      1,      1,      4000,   _S("ZOMBIE")},
     { ZOMBIE_FLAG,              REANIM_ZOMBIE,              1,      1,      1,      0,      _S("FLAG_ZOMBIE")},
     { ZOMBIE_TRAFFIC_CONE,      REANIM_ZOMBIE,              2,      3,      1,      4000,   _S("CONEHEAD_ZOMBIE")},
-    { ZOMBIE_ENDERMAN,          REANIM_ZOMBIE,              3,      5,      1,      4000,   _S("ZOMBIE")},
     { ZOMBIE_POLEVAULTER,       REANIM_POLEVAULTER,         2,      6,      5,      2000,   _S("POLE_VAULTING_ZOMBIE")},
     { ZOMBIE_PAIL,              REANIM_ZOMBIE,              4,      8,      1,      3000,   _S("BUCKETHEAD_ZOMBIE")},
     { ZOMBIE_NEWSPAPER,         REANIM_ZOMBIE_NEWSPAPER,    2,      11,     1,      1000,   _S("NEWSPAPER_ZOMBIE")},
@@ -44,6 +43,7 @@ ZombieDefinition gZombieDefs[NUM_ZOMBIE_TYPES] = {
     { ZOMBIE_CATAPULT,          REANIM_CATAPULT,            5,      46,     10,     1500,   _S("CATAPULT_ZOMBIE")},
     { ZOMBIE_GARGANTUAR,        REANIM_GARGANTUAR,          10,     48,     15,     1500,   _S("GARGANTUAR")},
     { ZOMBIE_IMP,               REANIM_IMP,                 10,     48,     1,      0,      _S("IMP")},
+    { ZOMBIE_ENDERMAN,          REANIM_ZOMBIE,              3,      5,      1,      4000,   _S("ENDERMAN_ZOMBIE") },
     { ZOMBIE_BOSS,              REANIM_BOSS,                10,     50,     1,      0,      _S("BOSS")},
     { ZOMBIE_REDEYE_GARGANTUAR, REANIM_GARGANTUAR,          10,     48,     15,     6000,   _S("REDEYED_GARGANTUAR")},
     { ZOMBIE_PEA_HEAD,          REANIM_ZOMBIE,              1,      99,     1,      4000,   _S("PEASHOOTER_ZOMBIE")},
@@ -52,6 +52,7 @@ ZombieDefinition gZombieDefs[NUM_ZOMBIE_TYPES] = {
     { ZOMBIE_GATLING_HEAD,      REANIM_ZOMBIE,              3,      99,     10,     2000,   _S("GATLING_ZOMBIE")},
     { ZOMBIE_SQUASH_HEAD,       REANIM_ZOMBIE,              3,      99,     10,     2000,   _S("SQUASH_ZOMBIE")},
     { ZOMBIE_TALLNUT_HEAD,      REANIM_ZOMBIE,              4,      99,     10,     2000,   _S("TALLNUT_ZOMBIE")}
+
 };
 
 static ZombieType gBossZombieList[] = {  
