@@ -106,6 +106,12 @@ Peashooter
 [PEASHOOTER_TOOLTIP]
 Shoots peas at the enemy
 
+[SWEET_POTATO]
+Sweet Potato Mine
+
+[SWEET_POTATO_TOOLTIP]
+Explodes a short time after contact, but takes a lot of time to arm herself
+
 [SUNFLOWER]
 Sunflower
 
@@ -494,6 +500,9 @@ Giga-gargantuar
 
 [IMP]
 Imp
+
+[ENDERMAN_ZOMBIE]
+Enderman Zombie
 
 [BOSS]
 Dr. Zomboss
@@ -1338,6 +1347,16 @@ Imps are tiny zombies hurled by Gargantuar deep into your defenses.
 {SHORTLINE}
 {FLAVOR}Imp may be small, but he's wiry. He's proficient in zombie judo, zombie karate 
 and zombie bare-knuckle brawling. He also plays the melodica.
+
+[ENDERMAN_ZOMBIE_DESCRIPTION_HEADER]
+Enderman Zombie teleports randomly in any cardinal direction.
+
+[ENDERMAN_ZOMBIE_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Toughness:{STAT} low {270}
+{SHORTLINE}
+{FLAVOR}
+You're probably wondering how enderman zombie ended up here. Well it all started on a black friday sale on the day of the outbreak...
 
 [BOSS_DESCRIPTION_HEADER]
 Dr. Zomboss rules them all.

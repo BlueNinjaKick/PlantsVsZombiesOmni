@@ -468,6 +468,7 @@
 <Sound id="SUKHBIR4" path="sukhbir4" /> 
 <Sound id="SUKHBIR5" path="sukhbir5" /> 
 <Sound id="SUKHBIR6" path="sukhbir6" /> 
+<Sound id="ENDERMAN_TELEPORT" path="enderman_teleport" />
 <Sound id="TAP" path="tap" /> 
 <Sound id="TAP2" path="tap2" /> 
 <Sound id="THROW" path="throw" /> 

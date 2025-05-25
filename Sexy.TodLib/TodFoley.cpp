@@ -58,6 +58,7 @@ FoleyParams gLawnFoleyParamArray[(int)FoleyType::NUM_FOLEY] = {
 	{ FoleyType::FOLEY_BONK,                    2.0f,   { &Sexy::SOUND_BONK}, 0U },
 	{ FoleyType::FOLEY_RAIN,                    0.0f,   { &Sexy::SOUND_RAIN}, 5U },
 	{ FoleyType::FOLEY_DOLPHIN_BEFORE_JUMPING,  0.0f,   { &Sexy::SOUND_DOLPHIN_BEFORE_JUMPING}, 0U },
+	{ FoleyType::FOLEY_ENDERMAN_TELEPORT,       0.0f,   { &Sexy::SOUND_ENDERMAN_TELEPORT}, 0U  },
 	{ FoleyType::FOLEY_DOLPHIN_APPEARS,         0.0f,   { &Sexy::SOUND_DOLPHIN_APPEARS}, 0U },
 	{ FoleyType::FOLEY_PLANT_WATER,             0.0f,   { &Sexy::SOUND_PLANT_WATER}, 0U },
 	{ FoleyType::FOLEY_ZOMBIE_ENTERING_WATER,   0.0f,   { &Sexy::SOUND_ZOMBIE_ENTERING_WATER}, 0U },
