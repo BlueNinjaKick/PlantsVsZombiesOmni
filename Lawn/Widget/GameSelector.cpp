@@ -247,22 +247,6 @@ GameSelector::GameSelector(LawnApp* theApp)
 	mAchievementButton->mClip = false;
 	mAchievementButton->mMouseVisible = false;
 
-	mQuickPlayButton = MakeNewButton(
-		GameSelector::GameSelector_QuickPlay,
-		this,
-		"",
-		nullptr,
-		Sexy::IMAGE_QUICKPLAY_BUTTON,
-		Sexy::IMAGE_QUICKPLAY_BUTTON_HIGHLIGHT,
-		Sexy::IMAGE_QUICKPLAY_BUTTON_HIGHLIGHT
-	);
-	mQuickPlayButton->Resize(300, mApp->mHeight - Sexy::IMAGE_QUICKPLAY_BUTTON->mHeight - 100, Sexy::IMAGE_QUICKPLAY_BUTTON->mWidth, Sexy::IMAGE_QUICKPLAY_BUTTON->mHeight);
-	mQuickPlayButton->mClip = false;
-	mQuickPlayButton->mMouseVisible = false;
-	mQuickPlayButton->SetDisabled(false);
-	mQuickPlayButton->mVisible = true;
-
-
 	mCreditsButton = MakeNewButton(
 		GameSelector::GameSelector_Credits,
 		this,
@@ -371,8 +355,6 @@ GameSelector::~GameSelector()
 		delete mChangeUserButton;
 	if (mCreditsButton)
 		delete mCreditsButton;
-	if (mQuickPlayButton)
-		delete mQuickPlayButton;
 
 	delete mToolTip;
 
@@ -388,8 +370,6 @@ void GameSelector::SyncButtons()
 
 	mAlmanacButton->mDisabled = !aAlmanacAvailable;
 	mAlmanacButton->mVisible = aAlmanacAvailable;
-	mQuickPlayButton->mDisabled = !mApp->HasFinishedAdventure();
-	mQuickPlayButton->mVisible = mApp->HasFinishedAdventure();
 	mStoreButton->mDisabled = !aStoreOpen;
 	mStoreButton->mVisible = aStoreOpen;
 
@@ -785,7 +765,7 @@ void GameSelector::Update()
 	MarkDirty();
 	UpdateTooltip();
 	mApp->mZenGarden->UpdatePlantNeeds();
-	
+
 	SexyString aState;
 	if (mSelectorState == SELECTOR_SUB_MENU)
 	{
@@ -827,16 +807,14 @@ void GameSelector::Update()
 		mChangeUserButton->SetButtonOffset(aPosX, aPosY);
 		mCreditsButton->SetButtonOffset(aPosX, aPosY);
 		mAchievementButton->SetButtonOffset(aPosX, aPosY);
-		mQuickPlayButton->SetButtonOffset(aPosX, aPosY);
 
-		
+
 		mAchievementButton->MarkDirty();
-		mQuickPlayButton->MarkDirty();
 		mOptionsButton->MarkDirty();
 		mHelpButton->MarkDirty();
 		mQuitButton->MarkDirty();
 		mStoreButton->MarkDirty();
-		
+
 		mMovementTimer--;
 	}
 	else if (mMovementTimer == 0)
@@ -858,7 +836,6 @@ void GameSelector::Update()
 			mSurvivalButton->SetDisabled(false);
 			mZenGardenButton->SetDisabled(false);
 			mAchievementButton->SetDisabled(false);
-			mQuickPlayButton->SetDisabled(false);
 			mEnableButtonsTransition = false;
 		}
 	}
@@ -867,44 +844,54 @@ void GameSelector::Update()
 	if (aParticle)
 		aParticle->Update();
 
-	if (mStartingGame)
+	if (mStartingGameCounter < 478 && mStartingGameCounter > 0)
 	{
 		mStartingGameCounter++;
-		if (mStartingGameCounter > 450)
-		{
-			mApp->KillGameSelector();
+		mAdventureButton->SetColor(ButtonWidget::COLOR_BKG, mStartingGameCounter % 20 < 10 ? Color(80, 80, 80) : Color::White);
+	}
 
-			if (mApp->IsIceDemo())
-			{
-				mApp->PreNewGame(GameMode::GAMEMODE_CHALLENGE_ICE, false);
-				return;
-			}
-			if (mApp->IsFirstTimeAdventureMode() && mLevel == 1 && mApp->SaveFileExists())
-			{
-				mApp->PreNewGame(GameMode::GAMEMODE_INTRO, false);
-				return;
-			}
-			if (mApp->mPlayerInfo->mNeedsMagicTacoReward && mLevel == 35)
-			{
-				StoreScreen* aStore = mApp->ShowStoreScreen();
-				aStore->SetupForIntro(601);
-				aStore->WaitForResult(true);
-				mApp->PreNewGame(GameMode::GAMEMODE_ADVENTURE, false);
-				return;
-			}
-			if (ShouldDoZenTuturialBeforeAdventure())
-			{
-				mApp->PreNewGame(GameMode::GAMEMODE_CHALLENGE_ZEN_GARDEN, false);
-				mApp->mZenGarden->SetupForZenTutorial();
-				return;
-			}
+	if (mStartingGameCounter == 125)
+		mApp->PlaySample(Sexy::SOUND_EVILLAUGH);
+
+	if (mStartingGameCounter == 450)
+	{
+		mMovementTimer = 75;
+		mDestinationX = -mApp->mWidth;
+		mSelectorState = SELECTOR_SUB_MENU;
+		mApp->ShowQuickPlayScreen();
+		mStartingGameCounter = 0;
+	}
+
+	if (mStartingGame)
+	{
+		mApp->KillGameSelector();
+
+		if (mApp->IsIceDemo())
+		{
+			mApp->PreNewGame(GameMode::GAMEMODE_CHALLENGE_ICE, false);
+			return;
+		}else if (mApp->IsFirstTimeAdventureMode() && mLevel == 1 && mApp->SaveFileExists())
+		{
+			mApp->PreNewGame(GameMode::GAMEMODE_INTRO, false);
+			return;
+		}else if (mApp->mPlayerInfo->mNeedsMagicTacoReward && mLevel == 35)
+		{
+			StoreScreen* aStore = mApp->ShowStoreScreen();
+			aStore->SetupForIntro(601);
+			aStore->WaitForResult(true);
+			mApp->PreNewGame(GameMode::GAMEMODE_ADVENTURE, false);
+			return;
+		}else if (ShouldDoZenTuturialBeforeAdventure())
+		{
+			mApp->PreNewGame(GameMode::GAMEMODE_CHALLENGE_ZEN_GARDEN, false);
+			mApp->mZenGarden->SetupForZenTutorial();
+			return;
+		}
+		else 
+		{
 			mApp->PreNewGame(GameMode::GAMEMODE_ADVENTURE, true);
 			return;
 		}
-
-		mAdventureButton->SetColor(ButtonWidget::COLOR_BKG, mStartingGameCounter % 20 < 10 ? Color(80, 80, 80) : Color::White);
-		if (mStartingGameCounter == 125)
-			mApp->PlaySample(Sexy::SOUND_EVILLAUGH);
 	}
 
 	Reanimation* aSelectorReanim = mApp->ReanimationGet(mSelectorReanimID);
@@ -927,7 +914,6 @@ void GameSelector::Update()
 			mHelpButton->mBtnNoDraw = false;
 			mOptionsButton->mBtnNoDraw = false;
 			mQuitButton->mBtnNoDraw = false;
-			mQuickPlayButton->mBtnNoDraw = false;
 			mAdventureButton->mMouseVisible = true;
 			mMinigameButton->mMouseVisible = true;
 			mPuzzleButton->mMouseVisible = true;
@@ -941,7 +927,6 @@ void GameSelector::Update()
 			mChangeUserButton->mMouseVisible = true;
 			mCreditsButton->mMouseVisible = true;
 			mAchievementButton->mMouseVisible = true;
-			mQuickPlayButton->mMouseVisible = true;
 
 			if (mApp->mPlayerInfo == nullptr)
 			{
@@ -965,11 +950,11 @@ void GameSelector::Update()
 				mApp->mPlayerInfo->mNeedsMessageOnGameSelector = 0;
 				mApp->WriteCurrentUserConfig();
 				mApp->LawnMessageBox(
-					Dialogs::DIALOG_MESSAGE, 
-					_S("[ADVENTURE_COMPLETE_HEADER]"), 
-					_S("[ADVENTURE_COMPLETE_BODY]"), 
-					_S("[DIALOG_BUTTON_OK]"), 
-					_S(""), 
+					Dialogs::DIALOG_MESSAGE,
+					_S("[ADVENTURE_COMPLETE_HEADER]"),
+					_S("[ADVENTURE_COMPLETE_BODY]"),
+					_S("[DIALOG_BUTTON_OK]"),
+					_S(""),
 					Dialog::BUTTONS_FOOTER
 				);
 			}
@@ -1022,6 +1007,7 @@ void GameSelector::Update()
 		mApp->ReanimationGet(mCloudReanimID[i])->Update();
 
 	Reanimation* aHandReanim = mApp->ReanimationTryToGet(mHandReanimID);
+
 	if (aHandReanim)
 		aHandReanim->Update();
 
@@ -1043,7 +1029,6 @@ void GameSelector::Update()
 		TrackButton(mChangeUserButton, "woodsign2", 24.0f, 10.0f);
 		TrackButton(mCreditsButton, "woodsign3", 0.0f, 0.0f);
 		TrackButton(mAchievementButton, "SelectorScreen_BG_Left", 20.f, 480.f);
-		TrackButton(mQuickPlayButton, "SelectorScreen_BG_Right", 80.f, 230.f);
 		aSelectorReanim->SetImageOverride("woodsign2", (mChangeUserButton->mIsOver || mChangeUserButton->mIsDown) ? Sexy::IMAGE_REANIM_SELECTORSCREEN_WOODSIGN2_PRESS : nullptr);
 		aSelectorReanim->SetImageOverride("woodsign3", (mCreditsButton->mIsOver || mCreditsButton->mIsDown) ? Sexy::IMAGE_REANIM_SELECTORSCREEN_WOODSIGN3_PRESS : nullptr);
 	}
@@ -1080,8 +1065,6 @@ void GameSelector::AddedToManager(WidgetManager* theWidgetManager)
 	theWidgetManager->AddWidget(mOverlayWidget);
 	if (HAS_ACHIEVEMENTS)
 		theWidgetManager->AddWidget(mAchievementButton);
-	if (HAS_QUICKPLAY)
-		theWidgetManager->AddWidget(mQuickPlayButton);
 }
 
 void GameSelector::RemovedFromManager(WidgetManager* theWidgetManager)
@@ -1103,8 +1086,6 @@ void GameSelector::RemovedFromManager(WidgetManager* theWidgetManager)
 	theWidgetManager->RemoveWidget(mOverlayWidget);
 	if (HAS_ACHIEVEMENTS)
 		theWidgetManager->RemoveWidget(mAchievementButton);
-	if (HAS_QUICKPLAY)
-		theWidgetManager->RemoveWidget(mQuickPlayButton);
 }
 
 void GameSelector::OrderInManagerChanged()
@@ -1124,8 +1105,6 @@ void GameSelector::OrderInManagerChanged()
 	mWidgetManager->PutInfront(mCreditsButton, this);
 	if (HAS_ACHIEVEMENTS)
 		mWidgetManager->PutInfront(mAchievementButton, this);
-	if (HAS_QUICKPLAY)
-		mWidgetManager->PutInfront(mQuickPlayButton, this);
 }
 
 void GameSelector::KeyDown(KeyCode theKey)
@@ -1305,7 +1284,7 @@ void GameSelector::ClickedAdventure()
 
 	mApp->mMusic->StopAllMusic();
 	mApp->PlaySample(Sexy::SOUND_LOSEMUSIC);
-	mStartingGame = true;
+	
 	mAdventureButton->SetDisabled(true);
 	mMinigameButton->SetDisabled(true);
 	mPuzzleButton->SetDisabled(true);
@@ -1319,7 +1298,6 @@ void GameSelector::ClickedAdventure()
 	mSurvivalButton->SetDisabled(true);
 	mZenGardenButton->SetDisabled(true);
 	mAchievementButton->SetDisabled(true);
-	mQuickPlayButton->SetDisabled(true);
 
 	Reanimation* aHandReanim = mApp->AddReanimation(-70.0f, 10.0f, 0, ReanimationType::REANIM_ZOMBIE_HAND);
 	aHandReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD;
@@ -1328,6 +1306,9 @@ void GameSelector::ClickedAdventure()
 	for (int i = 0; i < aHandReanim->mDefinition->mTrackCount; i++)
 		if (!strnicmp(aHandReanim->mDefinition->mTracks[i].mName, "rock", 4))
 			aHandReanim->mTrackInstances[i].mIgnoreClipRect = true;
+	
+	mStartingGameCounter++;
+
 }
 
 bool GameSelector::ShouldDoZenTuturialBeforeAdventure()
@@ -1419,27 +1400,6 @@ void GameSelector::ButtonDepress(int theId)
 		mSurvivalButton->SetDisabled(true);
 		mZenGardenButton->SetDisabled(true);
 		mAchievementButton->SetDisabled(true);
-		mQuickPlayButton->SetDisabled(true);
-		break;
-	case GameSelector::GameSelector_QuickPlay:
-		mMovementTimer = 75;
-		mDestinationX = -mApp->mWidth;
-		mSelectorState = SELECTOR_SUB_MENU;
-		mApp->ShowQuickPlayScreen();
-		mAdventureButton->SetDisabled(true);
-		mMinigameButton->SetDisabled(true);
-		mPuzzleButton->SetDisabled(true);
-		mOptionsButton->SetDisabled(true);
-		mQuitButton->SetDisabled(true);
-		mHelpButton->SetDisabled(true);
-		mChangeUserButton->SetDisabled(true);
-		mCreditsButton->SetDisabled(true);
-		mStoreButton->SetDisabled(true);
-		mAlmanacButton->SetDisabled(true);
-		mSurvivalButton->SetDisabled(true);
-		mZenGardenButton->SetDisabled(true);
-		mAchievementButton->SetDisabled(true);
-		mQuickPlayButton->SetDisabled(true);
 		break;
 	case GameSelector::GameSelector_ZenGarden:
 		mApp->KillGameSelector();

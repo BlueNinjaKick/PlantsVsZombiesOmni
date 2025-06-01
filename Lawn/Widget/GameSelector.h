@@ -57,7 +57,6 @@ public:
     NewLawnButton*              mAlmanacButton;             
     NewLawnButton*              mZenGardenButton;           
     NewLawnButton*              mAchievementButton;                
-    NewLawnButton*              mQuickPlayButton;
     NewLawnButton*              mCreditsButton;
     NewLawnButton*              mSurvivalButton;            
     NewLawnButton*              mChangeUserButton;          

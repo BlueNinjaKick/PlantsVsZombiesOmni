@@ -65,7 +65,6 @@ const int			ADVANCEDOPTIONS_SPEED_Y = 128;
 const int			SPEED_MODIFIER_MIN = 2;
 const int			SPEED_MODIFIER_MAX = 9;
 
-const bool			HAS_QUICKPLAY = true;
 const bool			HAS_ACHIEVEMENTS = true;
 const bool			HAS_PAGE_SELECTOR = true;
 const bool			HAS_FAST_FORWARD_BUTTON = true;

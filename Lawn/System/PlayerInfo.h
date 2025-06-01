@@ -46,6 +46,7 @@ public:
     ulong               mUseSeq;                            
     ulong               mId;                                
     int                 mLevel;                             
+    int                 mCrazySeedsLevel;
     int                 mCoins;                             
     int                 mFinishedAdventure;                 
     int                 mChallengeRecords[100];             

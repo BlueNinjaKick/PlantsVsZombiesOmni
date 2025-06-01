@@ -25,6 +25,7 @@ using namespace Sexy;
 QuickPlayScreen::QuickPlayScreen(LawnApp* theApp)
 {
     mApp = theApp;
+    mApp->mQuickLevel = 1;
     TodLoadResources("DelayLoad_QuickPlay");
     TodLoadResources("DelayLoad_AwardScreen");
 
@@ -320,8 +321,26 @@ void QuickPlayScreen::ButtonPress(int theId)
     mApp->PlaySample(Sexy::SOUND_BUTTONCLICK);
 }
 
+// add function here for hiding locked levels
+
 void QuickPlayScreen::Update()
 {
+    // right button disappears
+    if (((mApp->mQuickLevel == mApp->mPlayerInfo->mLevel) && !mApp->HasFinishedAdventure()) || (mApp->mQuickLevel == 50))
+        mRightButton->mVisible = false;
+    else
+        mRightButton->mVisible = true;
+    // left button disappears
+    if (mApp->mQuickLevel == 1)
+        mLeftButton->mVisible = false;
+    else
+        mLeftButton->mVisible = true;
+    // Crazy dave seeds checkbox disappears
+    if (mApp->mPlayerInfo->mCrazySeedsLevel >= mApp->mQuickLevel)
+        mCrazySeedsCheck->mVisible = true;
+    else
+        mCrazySeedsCheck->mVisible = false;
+
     Reanimation* aHammerReanim = mApp->ReanimationTryToGet(mHammerID);
     if (aHammerReanim)
     {
@@ -394,10 +413,16 @@ void QuickPlayScreen::ResetPlant()
 
 void QuickPlayScreen::StartLevel()
 {
-    mApp->mCrazySeeds = mCrazySeedsCheck->mChecked;
-    mApp->KillGameSelector();
+    mApp->mGameSelector->mStartingGame = true;
+    mApp->mGameSelector->mSelectorState = SELECTOR_IDLE;
+    if (mApp->mPlayerInfo->mLevel > mApp->mQuickLevel)
+    {
+        mApp->mCrazySeeds = mCrazySeedsCheck->mChecked;
+        mApp->mGameSelector->mStartingGame = false;
+        mApp->KillGameSelector();
+        mApp->StartQuickPlay();
+    }
     mApp->KillQuickPlayScreen();
-    mApp->StartQuickPlay();
 }
 
 void QuickPlayScreen::ExitScreen()
@@ -423,6 +448,7 @@ void QuickPlayScreen::PreviousLevel()
 
 void QuickPlayScreen::NextLevel()
 {
+    
     mApp->mQuickLevel = ClampInt(mApp->mQuickLevel + 1, 1, NUM_LEVELS);
     ChooseBackground();
     ResetZombie();
