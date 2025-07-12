@@ -1192,6 +1192,7 @@ void GameSelector::KeyChar(char theChar)
 		TodTraceAndLog(_S("Selector cheat key '%c'"), theChar);
 
 		mApp->mPlayerInfo->mFinishedAdventure = 2;
+
 		mApp->mPlayerInfo->AddCoins(50000);
 		mApp->mPlayerInfo->mHasUsedCheatKeys = true;
 		mApp->mPlayerInfo->mHasUnlockedMinigames = true;

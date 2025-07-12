@@ -26,16 +26,24 @@ public:
     NewLawnButton* mBackButton;
     NewLawnButton* mLeftButton;
     NewLawnButton* mRightButton;
+    NewLawnButton* mAdventureSelectButton;
     LawnStoneButton* mPlayButton;
     BackgroundType              mBackground;
     ZombieType                  mZombieType;
     SeedType                    mSeedType;
     int                         mLevel;
+    std::list<std::string>      mAdventureType;
+    std::string	                mCurrentAdventure;
+    int                         mAdventureTypeIndex;
     Zombie* mDisplayZombie;
     Plant* mDisplayPlant;
     Plant* mFlowerPot;
     ReanimationID			    mHammerID;
     Checkbox*         mCrazySeedsCheck;
+    //Checkbox*         mAdventureCheck;
+    enum {
+        QuickPlayScreen_Adventure_Type
+    };
 
 public:
     QuickPlayScreen(LawnApp* theApp);
@@ -50,6 +58,7 @@ public:
     void                        ExitScreen();
     void                        PreviousLevel();
     void                        NextLevel();
+    SexyString                  GetAdventureTypeString();
     ZombieType                  GetZombieType(int ID);
     virtual void                Draw(Graphics* g);
     virtual void                Update();

@@ -43,7 +43,7 @@ ZombieDefinition gZombieDefs[NUM_ZOMBIE_TYPES] = {
     { ZOMBIE_CATAPULT,          REANIM_CATAPULT,            5,      46,     10,     1500,   _S("CATAPULT_ZOMBIE")},
     { ZOMBIE_GARGANTUAR,        REANIM_GARGANTUAR,          10,     48,     15,     1500,   _S("GARGANTUAR")},
     { ZOMBIE_IMP,               REANIM_IMP,                 10,     48,     1,      0,      _S("IMP")},
-    { ZOMBIE_ENDERMAN,          REANIM_ZOMBIE,              3,      5,      1,      4000,   _S("ENDERMAN_ZOMBIE") },
+    { ZOMBIE_ENDERMAN,          REANIM_ZOMBIE_ENDERMAN,              3,      5,      1,      4000,   _S("ENDERMAN_ZOMBIE") },
     { ZOMBIE_BOSS,              REANIM_BOSS,                10,     50,     1,      0,      _S("BOSS")},
     { ZOMBIE_REDEYE_GARGANTUAR, REANIM_GARGANTUAR,          10,     48,     15,     6000,   _S("REDEYED_GARGANTUAR")},
     { ZOMBIE_PEA_HEAD,          REANIM_ZOMBIE,              1,      99,     1,      4000,   _S("PEASHOOTER_ZOMBIE")},
@@ -5564,12 +5564,6 @@ void Zombie::DrawReanim(Graphics* g, const ZombieDrawPosition& theDrawPos, int t
     else if (mChilledCounter > 0 || mIceTrapCounter > 0)
     {
         aColorOverride = Color(75, 75, 255, aFadeAlpha);
-        aExtraAdditiveColor = aColorOverride;
-        aEnableExtraAdditiveDraw = true;
-    }
-    else if (mZombieType == ZombieType::ZOMBIE_ENDERMAN)
-    {
-        aColorOverride = Color(0, 0, 0, aFadeAlpha);
         aExtraAdditiveColor = aColorOverride;
         aEnableExtraAdditiveDraw = true;
     }

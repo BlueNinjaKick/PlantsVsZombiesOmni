@@ -1502,13 +1502,19 @@ bool LawnApp::UpdatePlayerProfileForFinishingLevel()
 		if (mBoard->mLevel == FINAL_LEVEL)
 		{
 			mPlayerInfo->mLevel = 1;  
+			mPlayerInfo->mCrazySeedsLevel = 1;
 			mPlayerInfo->mFinishedAdventure++;  
 			if (mPlayerInfo->mFinishedAdventure == 1)
 			{
 				mPlayerInfo->mNeedsMessageOnGameSelector = 1;
 			}
 		}
-		else
+		else if (mQuickLevel == mPlayerInfo->mCrazySeedsLevel)
+		{
+			mPlayerInfo->mCrazySeedsLevel++;
+			mPlayerInfo->mLevel = mBoard->mLevel + 1;
+		}
+		else if (!HasFinishedAdventure())
 		{
 			mPlayerInfo->mLevel = mBoard->mLevel + 1;  
 		}

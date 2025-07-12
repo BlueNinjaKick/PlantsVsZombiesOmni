@@ -45,7 +45,18 @@ QuickPlayScreen::QuickPlayScreen(LawnApp* theApp)
     mPlayButton = MakeButton(3, this, _S("[PLAY_BUTTON]"));
 
     mCrazySeedsCheck = MakeNewCheckbox(4, this, theApp->mCrazySeeds);
-    mCrazySeedsCheck->mVisible = true;
+    /*mAdventureCheck = MakeNewCheckbox(4, this, false);*/
+    mCrazySeedsCheck->mChecked = false;
+
+    mAdventureType = { "The OG Game" };
+    mAdventureTypeIndex = std::distance(mAdventureType.begin(), mAdventureType.end());
+    mCurrentAdventure = mAdventureType.front();
+
+    mAdventureSelectButton = MakeNewButton(QuickPlayScreen::QuickPlayScreen_Adventure_Type, this, GetAdventureTypeString(), nullptr, Sexy::IMAGE_BLANK, Sexy::IMAGE_BLANK, Sexy::IMAGE_BLANK);
+    mAdventureSelectButton->SetFont(FONT_DWARVENTODCRAFT18);
+    mAdventureSelectButton->mColors[ButtonWidget::COLOR_LABEL] = Color(107, 109, 145);
+    mAdventureSelectButton->mColors[ButtonWidget::COLOR_LABEL_HILITE] = Color(1, 233, 1);
+    mAdventureSelectButton->SetVisible(false);
 
     mDisplayZombie = new Zombie();
     mDisplayZombie->mBoard = nullptr;
@@ -71,6 +82,7 @@ QuickPlayScreen::QuickPlayScreen(LawnApp* theApp)
     mPlayButton->Resize(mLeftButton->mX + mLeftButton->mWidth + 20, mLeftButton->mY, 163, 46);
     mRightButton->Resize(mPlayButton->mX + mPlayButton->mWidth + 20, mPlayButton->mY, IMAGE_QUICKPLAY_RIGHT_BUTTON->mWidth, IMAGE_QUICKPLAY_RIGHT_BUTTON->mHeight);
     mCrazySeedsCheck->Resize(130, mRightButton->mY + 2, 50, 50);
+    /*mAdventureCheck->Resize(130, mRightButton->mY + 27, 50, 50);*/
 
     ChooseBackground();
     ResetZombie();
@@ -83,6 +95,7 @@ QuickPlayScreen::~QuickPlayScreen()
     delete mBackButton;
     delete mPlayButton;
     delete mCrazySeedsCheck;
+    /*delete mAdventureCheck;*/
     delete mDisplayZombie;
     delete mDisplayPlant;
     delete mFlowerPot;
@@ -188,7 +201,26 @@ void QuickPlayScreen::Draw(Graphics* g)
     int posX = 100;
     g->DrawImage(Sexy::IMAGE_QUICKPLAY_WIDGET, posX, 0);
     TodDrawString(g, mApp->GetStageString(mApp->mQuickLevel).erase(0, 1), posX + (Sexy::IMAGE_QUICKPLAY_WIDGET->mWidth / 2), 30, Sexy::FONT_DWARVENTODCRAFT18GREENINSET, Color::White, DS_ALIGN_CENTER);
-    TodDrawString(g, TodStringTranslate(_S("[CRAZY_DAVE_SEEDS]")), mCrazySeedsCheck->mX + 45, mCrazySeedsCheck->mY + 23, Sexy::FONT_DWARVENTODCRAFT18GREENINSET, Color::White, DS_ALIGN_LEFT);
+    if (mCrazySeedsCheck->mVisible)
+        TodDrawString(g, TodStringTranslate(_S("[CRAZY_DAVE_SEEDS]")), mCrazySeedsCheck->mX + 45, mCrazySeedsCheck->mY + 23, Sexy::FONT_DWARVENTODCRAFT18GREENINSET, Color::White, DS_ALIGN_LEFT);
+   /* if (mAdventureCheck->mVisible)
+        TodDrawString(g, TodStringTranslate(_S("[ADVENTURE_MODE]")), mAdventureCheck->mX + 45, mAdventureCheck->mY + 23, Sexy::FONT_DWARVENTODCRAFT18GREENINSET, Color::White, DS_ALIGN_LEFT);*/
+}
+
+SexyString QuickPlayScreen::GetAdventureTypeString()
+{
+    
+    if (mApp->mPlayerInfo->mNeighborLevel > 0) 
+    {
+        mAdventureType.push_back("Touring Neighborville");
+    }
+    if (mApp->mPlayerInfo->mMinecraftLevel > 0)
+    {
+        mAdventureType.push_back("Let's Play Minecraft!");
+    }
+    mAdventureTypeIndex = std::distance(mAdventureType.begin(), mAdventureType.end());
+    /*std::replace(aResourcePack.begin(), aResourcePack.end(), ' ', '_');*/
+    return mCurrentAdventure;
 }
 
 void QuickPlayScreen::KeyDown(KeyCode theKey) {
@@ -304,6 +336,7 @@ void QuickPlayScreen::AddedToManager(WidgetManager* theWidgetManager)
     AddWidget(mRightButton);
     AddWidget(mPlayButton);
     AddWidget(mCrazySeedsCheck);
+    /*AddWidget(mAdventureCheck);*/
 }
 
 void QuickPlayScreen::RemovedFromManager(WidgetManager* theWidgetManager)
@@ -314,6 +347,7 @@ void QuickPlayScreen::RemovedFromManager(WidgetManager* theWidgetManager)
     RemoveWidget(mRightButton);
     RemoveWidget(mPlayButton);
     RemoveWidget(mCrazySeedsCheck);
+    /*RemoveWidget(mAdventureCheck);*/
 }
 
 void QuickPlayScreen::ButtonPress(int theId)
@@ -340,6 +374,12 @@ void QuickPlayScreen::Update()
         mCrazySeedsCheck->mVisible = true;
     else
         mCrazySeedsCheck->mVisible = false;
+    // Adventure button disappears (all references of the adventure button are removed until I figure out if I even want that
+    //if (mApp->HasFinishedAdventure() && mApp->mPlayerInfo->mCrazySeedsLevel != mApp->mQuickLevel)
+    //    mAdventureCheck->mVisible = true;
+    //else
+    //    mAdventureCheck->mVisible = false;
+
 
     Reanimation* aHammerReanim = mApp->ReanimationTryToGet(mHammerID);
     if (aHammerReanim)
@@ -413,16 +453,26 @@ void QuickPlayScreen::ResetPlant()
 
 void QuickPlayScreen::StartLevel()
 {
-    mApp->mGameSelector->mStartingGame = true;
-    mApp->mGameSelector->mSelectorState = SELECTOR_IDLE;
-    if (mApp->mPlayerInfo->mLevel > mApp->mQuickLevel)
+
+    if (mApp->mPlayerInfo->mCrazySeedsLevel == mApp->mQuickLevel)
     {
         mApp->mCrazySeeds = mCrazySeedsCheck->mChecked;
-        mApp->mGameSelector->mStartingGame = false;
+    }
+    else if (mApp->mPlayerInfo->mLevel > mApp->mQuickLevel /*&& !mAdventureCheck->mChecked*/)
+    {
+        if (mCrazySeedsCheck->mVisible)
+            mApp->mCrazySeeds = mCrazySeedsCheck->mChecked;
+        mApp->mCrazySeeds = false;
         mApp->KillGameSelector();
         mApp->StartQuickPlay();
+        return;
     }
+    if (mCrazySeedsCheck->mVisible)
+        mApp->mCrazySeeds = mCrazySeedsCheck->mChecked;
+    mApp->mGameSelector->mStartingGame = true;
+    mApp->mGameSelector->mSelectorState = SELECTOR_IDLE;
     mApp->KillQuickPlayScreen();
+
 }
 
 void QuickPlayScreen::ExitScreen()

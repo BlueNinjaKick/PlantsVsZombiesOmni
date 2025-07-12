@@ -37,6 +37,7 @@ void PlayerInfo::SyncDetails(DataSync& theSync)
 	}
 
 	theSync.SyncLong(mLevel);
+	theSync.SyncLong(mCrazySeedsLevel);
 	theSync.SyncLong(mCoins);
 	theSync.SyncLong(mFinishedAdventure);
 	for (int i = 0; i < 100; i++)
@@ -135,6 +136,9 @@ void PlayerInfo::DeleteUserFiles()
 void PlayerInfo::Reset()
 {
 	mLevel = 1;
+	mCrazySeedsLevel = 0;
+	mMinecraftLevel = 0;
+	mNeighborLevel = 0;
 	mCoins = 0;
 	mFinishedAdventure = 0;
 	memset(mChallengeRecords, 0, sizeof(mChallengeRecords));

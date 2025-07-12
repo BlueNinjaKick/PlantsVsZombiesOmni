@@ -47,6 +47,8 @@ public:
     ulong               mId;                                
     int                 mLevel;                             
     int                 mCrazySeedsLevel;
+    int                 mMinecraftLevel;
+    int                 mNeighborLevel;
     int                 mCoins;                             
     int                 mFinishedAdventure;                 
     int                 mChallengeRecords[100];             

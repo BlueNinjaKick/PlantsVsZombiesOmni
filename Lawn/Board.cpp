@@ -1726,7 +1726,7 @@ void Board::UpdateLevelEndSequence()
 	mBoardFadeOutCounter--;
 	if (mBoardFadeOutCounter == 0)
 	{
-		if (mApp->mPlayingQuickplay && mLevel != FINAL_LEVEL)
+		if (mApp->mPlayingQuickplay && mLevel != FINAL_LEVEL && ((mApp->mPlayerInfo->mLevel - 1) != mApp->mQuickLevel))
 		{
 			LawnDialog* aDialog = (LawnDialog*)mApp->DoDialog(DIALOG_MESSAGE, true, _S("[QUICK_PLAY_HEADER]"), _S("[QUICK_PLAY]"), "", Dialog::BUTTONS_YES_NO);
 			if (aDialog->WaitForResult(true) == Dialog::ID_YES)
